@@ -46,6 +46,8 @@ export default async function AdminPage() {
     { data: visitsWeekRows, count: visitsWeek },
     { data: scriptViewsTodayRows, count: scriptViewsToday },
     { data: scriptViewsWeekRows, count: scriptViewsWeek },
+    { count: purchasesToday },
+    { count: likesToday },
   ] = await Promise.all([
     admin.from("scripts").select("*").order("views", { ascending: false }),
     admin.from("site_stats").select("total_visits").eq("id", 1).maybeSingle(),
@@ -55,6 +57,8 @@ export default async function AdminPage() {
     admin.from("visit_log").select("created_at", { count: "exact" }).gte("created_at", startOfWeek),
     admin.from("script_view_log").select("created_at", { count: "exact" }).gte("created_at", startOfToday),
     admin.from("script_view_log").select("created_at", { count: "exact" }).gte("created_at", startOfWeek),
+    admin.from("purchases").select("*", { count: "exact", head: true }).gte("created_at", startOfToday),
+    admin.from("script_likes").select("*", { count: "exact", head: true }).gte("created_at", startOfToday),
   ]);
 
   const visitsTodayHourly = bucketByHourBR(visitsTodayRows);
@@ -81,6 +85,10 @@ export default async function AdminPage() {
     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     .slice(0, 10);
 
+  const startOfTodayDate = new Date(startOfToday);
+  const usersToday = users.filter((u) => new Date(u.created_at) >= startOfTodayDate).length;
+  const revenueToday = ((purchasesToday ?? 0) * paidPrice).toFixed(2).replace(".", ",");
+
   return (
     <AdminDashboard
       totalVisits={totalVisits}
@@ -91,6 +99,10 @@ export default async function AdminPage() {
       totalLikes={totalLikes}
       conversionRate={conversionRate}
       mostLiked={mostLiked}
+      usersToday={usersToday}
+      purchasesToday={purchasesToday ?? 0}
+      revenueToday={revenueToday}
+      likesToday={likesToday ?? 0}
       visitsToday={visitsToday}
       visitsWeek={visitsWeek}
       scriptViewsToday={scriptViewsToday}

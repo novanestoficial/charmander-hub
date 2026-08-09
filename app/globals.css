@@ -1976,6 +1976,21 @@
 
   .admin-stat-value-sm { font-size: 1.15rem; word-break: break-word; }
 
+  .admin-stat-value-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+
+  /* quanto essa estatística já subiu desde a meia-noite (fuso de Brasília) */
+  .admin-stat-delta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #34d399;
+    background: rgba(52, 211, 153, 0.14);
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    padding: 2px 7px;
+    border-radius: var(--r-pill);
+    white-space: nowrap;
+  }
+
   /* painel à parte pros números "agora": separado do grid frio de totais,
      com a mesma linguagem de destaque (brasa + painel) usada na oferta */
   .admin-today-panel {

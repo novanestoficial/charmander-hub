@@ -49,6 +49,12 @@ const TABS = [
   },
 ];
 
+// selo verde com o quanto essa estatística já subiu hoje (some se ainda for 0)
+function StatDelta({ value, prefix = "+" }) {
+  if (!value) return null;
+  return <span className="admin-stat-delta">{prefix}{value} hoje</span>;
+}
+
 function NavButton({ tab, active, variant, onSelect }) {
   return (
     <button
@@ -143,6 +149,10 @@ export default function AdminDashboard({
   totalLikes,
   conversionRate,
   mostLiked,
+  usersToday,
+  purchasesToday,
+  revenueToday,
+  likesToday,
   visitsToday,
   visitsWeek,
   scriptViewsToday,
@@ -193,27 +203,45 @@ export default function AdminDashboard({
             <div className="admin-stats-grid">
               <div className="admin-stat-card">
                 <span className="admin-stat-label">Visitas totais</span>
-                <span className="admin-stat-value">{totalVisits}</span>
+                <span className="admin-stat-value-row">
+                  <span className="admin-stat-value">{totalVisits}</span>
+                  <StatDelta value={visitsToday} />
+                </span>
               </div>
               <div className="admin-stat-card">
                 <span className="admin-stat-label">Usuários cadastrados</span>
-                <span className="admin-stat-value">{totalUsers}</span>
+                <span className="admin-stat-value-row">
+                  <span className="admin-stat-value">{totalUsers}</span>
+                  <StatDelta value={usersToday} />
+                </span>
               </div>
               <div className="admin-stat-card">
                 <span className="admin-stat-label">Compras</span>
-                <span className="admin-stat-value">{totalPurchases}</span>
+                <span className="admin-stat-value-row">
+                  <span className="admin-stat-value">{totalPurchases}</span>
+                  <StatDelta value={purchasesToday} />
+                </span>
               </div>
               <div className="admin-stat-card">
                 <span className="admin-stat-label">Receita estimada</span>
-                <span className="admin-stat-value">R$ {estimatedRevenue}</span>
+                <span className="admin-stat-value-row">
+                  <span className="admin-stat-value">R$ {estimatedRevenue}</span>
+                  <StatDelta value={purchasesToday > 0 ? `R$ ${revenueToday}` : 0} prefix="+" />
+                </span>
               </div>
               <div className="admin-stat-card">
                 <span className="admin-stat-label">Views nos scripts (total)</span>
-                <span className="admin-stat-value">{totalScriptViews}</span>
+                <span className="admin-stat-value-row">
+                  <span className="admin-stat-value">{totalScriptViews}</span>
+                  <StatDelta value={scriptViewsToday} />
+                </span>
               </div>
               <div className="admin-stat-card">
                 <span className="admin-stat-label">Likes totais</span>
-                <span className="admin-stat-value">{totalLikes}</span>
+                <span className="admin-stat-value-row">
+                  <span className="admin-stat-value">{totalLikes}</span>
+                  <StatDelta value={likesToday} />
+                </span>
               </div>
               <div className="admin-stat-card">
                 <span className="admin-stat-label">Taxa de conversão</span>
