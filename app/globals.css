@@ -1072,6 +1072,12 @@
 
   .admin-stat-value-sm { font-size: 1.15rem; word-break: break-word; }
 
+  .admin-stat-delta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #86efac;
+  }
+
   .admin-section { margin-bottom: 48px; }
 
   .admin-section h2 {

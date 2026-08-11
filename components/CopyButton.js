@@ -14,6 +14,9 @@ export default function CopyButton({ command }) {
           ? "Comando copiado pra área de transferência"
           : "Não deu pra copiar o comando";
       }
+      if (ok) {
+        fetch("/api/track-copy", { method: "POST" }).catch(() => {});
+      }
       setTimeout(() => {
         btn.textContent = original;
         btn.classList.remove("copied");

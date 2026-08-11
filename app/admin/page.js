@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getSupabaseServerClient } from "../../lib/supabase/server";
 import { getSupabaseAdminClient } from "../../lib/supabase/admin";
 import { ADMIN_EMAIL } from "../../lib/admin";
+import { startOfTodayBrazil, startOfWeekBrazil } from "../../lib/brazil-time";
 
 export const metadata = {
   title: "Admin — CHARMANDER SCRIPTS",
@@ -20,16 +21,29 @@ export default async function AdminPage() {
 
   const admin = getSupabaseAdminClient();
 
+  const todayStart = startOfTodayBrazil().toISOString();
+  const weekStart = startOfWeekBrazil().toISOString();
+
   const [
     { data: scripts },
     { data: siteStats },
     { data: usersResult },
     { count: purchaseCount },
+    { count: visitsToday },
+    { count: visitsWeek },
+    { count: copiesTotal },
+    { count: copiesToday },
+    { count: copiesWeek },
   ] = await Promise.all([
     admin.from("scripts").select("*").order("views", { ascending: false }),
     admin.from("site_stats").select("total_visits").eq("id", 1).maybeSingle(),
     admin.auth.admin.listUsers({ perPage: 200 }),
     admin.from("purchases").select("*", { count: "exact", head: true }),
+    admin.from("visit_log").select("*", { count: "exact", head: true }).gte("created_at", todayStart),
+    admin.from("visit_log").select("*", { count: "exact", head: true }).gte("created_at", weekStart),
+    admin.from("copy_log").select("*", { count: "exact", head: true }),
+    admin.from("copy_log").select("*", { count: "exact", head: true }).gte("created_at", todayStart),
+    admin.from("copy_log").select("*", { count: "exact", head: true }).gte("created_at", weekStart),
   ]);
 
   const totalVisits = siteStats?.total_visits ?? 0;
@@ -71,6 +85,20 @@ export default async function AdminPage() {
           <div className="admin-stat-card">
             <span className="admin-stat-label">Visitas totais</span>
             <span className="admin-stat-value">{totalVisits}</span>
+            <span className="admin-stat-delta">+{visitsToday ?? 0} hoje</span>
+          </div>
+          <div className="admin-stat-card">
+            <span className="admin-stat-label">Visitas na semana</span>
+            <span className="admin-stat-value">{visitsWeek ?? 0}</span>
+          </div>
+          <div className="admin-stat-card">
+            <span className="admin-stat-label">Cópias totais</span>
+            <span className="admin-stat-value">{copiesTotal ?? 0}</span>
+            <span className="admin-stat-delta">+{copiesToday ?? 0} hoje</span>
+          </div>
+          <div className="admin-stat-card">
+            <span className="admin-stat-label">Cópias na semana</span>
+            <span className="admin-stat-value">{copiesWeek ?? 0}</span>
           </div>
           <div className="admin-stat-card">
             <span className="admin-stat-label">Usuários cadastrados</span>
