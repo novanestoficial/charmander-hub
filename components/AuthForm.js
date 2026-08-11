@@ -4,19 +4,22 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowserClient } from "../lib/supabase/client";
 
-export default function AuthForm({ mode }) {
+export default function AuthForm({ mode, next }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
+  const destination = next || "/";
 
   async function handleGoogleLogin() {
     const supabase = getSupabaseBrowserClient();
+    const callbackUrl = new URL("/auth/callback", window.location.origin);
+    callbackUrl.searchParams.set("next", destination);
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: callbackUrl.toString() },
     });
   }
 
@@ -36,7 +39,7 @@ export default function AuthForm({ mode }) {
         setError("E-mail ou senha inválidos.");
         return;
       }
-      router.push("/");
+      router.push(destination);
       router.refresh();
     } else {
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
@@ -52,7 +55,7 @@ export default function AuthForm({ mode }) {
         setSignedUp(true);
         return;
       }
-      router.push("/");
+      router.push(destination);
       router.refresh();
     }
   }

@@ -1,38 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getSupabaseBrowserClient } from "../lib/supabase/client";
 
-export default function LikeButton({ slug, initialLikes }) {
-  const [likes, setLikes] = useState(initialLikes);
-  const [liked, setLiked] = useState(false);
-
-  useEffect(() => {
-    setLiked(localStorage.getItem(`liked-${slug}`) === "1");
-  }, [slug]);
+export default function LikeButton({ slug, initialLiked = false }) {
+  const [liked, setLiked] = useState(initialLiked);
+  const [busy, setBusy] = useState(false);
 
   async function handleClick() {
-    if (liked) return;
-    setLiked(true);
-    setLikes((n) => n + 1);
-    localStorage.setItem(`liked-${slug}`, "1");
+    if (busy) return;
+    setBusy(true);
+
+    const nextLiked = !liked;
+    setLiked(nextLiked);
 
     const supabase = getSupabaseBrowserClient();
-    const { data, error } = await supabase.rpc("increment_likes", { p_slug: slug });
-    if (!error && typeof data === "number") {
-      setLikes(data);
+    const { data, error } = await supabase.rpc("toggle_like", { p_slug: slug });
+    const row = Array.isArray(data) ? data[0] : data;
+
+    if (error || !row) {
+      setLiked(!nextLiked);
+    } else {
+      setLiked(row.liked);
     }
+    setBusy(false);
   }
 
   return (
     <button
       type="button"
-      className={`stats-overlay stat-likes like-button${liked ? " liked" : ""}`}
+      className={`like-button-lg${liked ? " liked" : ""}`}
       onClick={handleClick}
-      disabled={liked}
-      aria-label={liked ? "Você já curtiu esse script" : "Curtir esse script"}
+      disabled={busy}
+      aria-pressed={liked}
+      aria-label={liked ? "Remover dos favoritos" : "Curtir e favoritar esse script"}
     >
-      👍 {likes}
+      <span className="like-button-icon" aria-hidden="true">{liked ? "❤️" : "🤍"}</span>
+      <span className="like-button-label">{liked ? "Curtido" : "Curtir"}</span>
     </button>
   );
 }

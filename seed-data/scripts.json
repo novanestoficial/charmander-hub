@@ -96,5 +96,22 @@
     "origin": "script pessoal",
     "sort_order": 6,
     "meta_description": "Script de Voar — deixa voar livremente pelo mapa."
+  },
+  {
+    "slug": "lumin-hub",
+    "name": "Lumin Hub | FREE FINDER | GUILD EVENT AUTO HOP + AUTO TAME",
+    "tag": "Lua · Luarmor",
+    "description": "Hub pra Grow a Garden 2 com compra e venda automática (sementes, equipamentos, caixas e pets), colheita e plantio automáticos por peso ou mutação, rega e replantio automáticos, roubo de frutas à noite, troca e envio automático de itens, e busca de pets raros com hop automático de servidor.",
+    "copy_command": "loadstring(game:HttpGet(\"https://api.luarmor.net/files/v4/loaders/795c7accd08487171484e54a92e75c77.lua\"))()",
+    "cover_filename": "lumin-hub.png",
+    "cover_mime": "image/png",
+    "categories": [
+      "grow-a-garden-2"
+    ],
+    "is_paid": false,
+    "has_key": true,
+    "origin": "script externo",
+    "sort_order": 13,
+    "meta_description": "Lumin Hub — auto-farm completo de Grow a Garden 2: compra, colheita, venda e pets automáticos."
   }
 ]

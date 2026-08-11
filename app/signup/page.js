@@ -4,12 +4,17 @@ export const metadata = {
   title: "Criar conta — CHARMANDER SCRIPTS",
 };
 
-export default function SignupPage() {
+export default async function SignupPage({ searchParams }) {
+  const { next } = await searchParams;
+
   return (
     <>
       <header className="site-header">
         <a className="logo" href="/">
-          CHARMANDER<span className="logo-suffix"> SCRIPTS</span>
+          <span className="logo-badge">
+            <img className="logo-mark" src="/charmander-logo.png" alt="" width="64" height="64" />
+          </span>
+          <span className="logo-text">CHARMANDER<span className="logo-suffix"> SCRIPTS</span></span>
         </a>
         <a className="btn btn-ghost" href="/">
           <span className="back-full">&larr; Voltar ao catálogo</span>
@@ -21,11 +26,14 @@ export default function SignupPage() {
         <div className="wrap auth-wrap">
           <p className="eyebrow">Acesso</p>
           <h1 className="detail-title">Criar conta</h1>
+          {next && (
+            <p className="auth-gate-notice">Cria sua conta pra liberar esse script.</p>
+          )}
 
-          <AuthForm mode="signup" />
+          <AuthForm mode="signup" next={next} />
 
           <p className="auth-switch">
-            Já tem conta? <a href="/login">Entrar</a>
+            Já tem conta? <a href={`/login${next ? `?next=${encodeURIComponent(next)}` : ""}`}>Entrar</a>
           </p>
         </div>
       </main>
