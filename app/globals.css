@@ -1266,6 +1266,23 @@
     margin: 20px auto 24px;
   }
 
+  /* um script só (sem o baralho de 2 cartas): fluxo normal, altura própria,
+     senão a altura fixa de 320px do baralho sobrava vazia ou cobria a frase
+     de baixo quando só tinha 1 carta posicionada em absolute */
+  .bundle-cards-single {
+    width: 220px;
+    height: auto;
+    margin: 20px auto 26px;
+  }
+
+  .bundle-cards-single .card {
+    position: static;
+    width: 100%;
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
   .bundle-cards .card {
     position: absolute;
     top: 0;

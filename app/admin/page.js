@@ -81,7 +81,7 @@ export default async function AdminPage() {
   const users = usersResult?.users ?? [];
   const totalUsers = users.length;
   const totalPurchases = purchaseCount ?? 0;
-  const paidPrice = 4.99;
+  const paidPrice = 9.99;
   const estimatedRevenue = (totalPurchases * paidPrice).toFixed(2).replace(".", ",");
 
   const scriptList = scripts ?? [];

@@ -35,16 +35,12 @@ export default async function HomePage() {
     hasBundleAccess = !!purchase;
   }
 
-  const bundleScripts = ["explhub", "dropkick"]
-    .map((slug) => scripts.find((s) => s.slug === slug))
-    .filter(Boolean);
+  const premiumScript = scripts.find((s) => s.slug === "charmander-hub");
 
   const { data: purchaseCount } = await supabase.rpc("get_purchase_count");
 
-  // prova social real: só o que já existe no banco (views/likes dos 2 pagos + nº de compras)
+  // prova social real: só o que já existe no banco (views/likes do script pago + nº de compras)
   const nf = new Intl.NumberFormat("pt-BR");
-  const bundleViews = bundleScripts.reduce((sum, s) => sum + (s.views || 0), 0);
-  const bundleLikes = bundleScripts.reduce((sum, s) => sum + (s.likes || 0), 0);
   const buyers = purchaseCount || 0;
 
   return (
@@ -75,35 +71,33 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {!hasBundleAccess && bundleScripts.length === 2 && (
+        {!hasBundleAccess && premiumScript && (
           <div className="featured-cards">
             <div className="wrap bundle-panel">
-              <p className="bundle-eyebrow">Pacote premium &middot; sem key</p>
-              <h2 className="bundle-title">Os 2 scripts pagos, destravados de uma vez</h2>
+              <p className="bundle-eyebrow">Script premium &middot; sem key</p>
+              <h2 className="bundle-title">{premiumScript.name}, destravado na hora</h2>
               <p className="bundle-sub">
-                São os dois que eu mais uso pra gravar. Paga uma vez, ficam salvos na sua conta pra sempre.
+                O script mais completo do hub. Paga uma vez, fica salvo na sua conta pra sempre.
               </p>
-              <div className="bundle-cards">
-                {bundleScripts.map((s) => (
-                  <article className="card card-simple" key={s.slug}>
-                    <a className="card-link" href={`/scripts/${s.slug}`}>
-                      <div className="card-cover-wrap">
-                        <img
-                          className="card-cover"
-                          src={s.coverUrl}
-                          alt={s.name}
-                          loading="lazy"
-                          decoding="async"
-                          width="480"
-                          height="240"
-                        />
-                      </div>
-                      <div className="card-name-row">
-                        <span className="card-name">{s.name}</span>
-                      </div>
-                    </a>
-                  </article>
-                ))}
+              <div className="bundle-cards bundle-cards-single">
+                <article className="card card-simple">
+                  <a className="card-link" href={`/scripts/${premiumScript.slug}`}>
+                    <div className="card-cover-wrap">
+                      <img
+                        className="card-cover"
+                        src={premiumScript.coverUrl}
+                        alt={premiumScript.name}
+                        loading="lazy"
+                        decoding="async"
+                        width="480"
+                        height="240"
+                      />
+                    </div>
+                    <div className="card-name-row">
+                      <span className="card-name">{premiumScript.name}</span>
+                    </div>
+                  </a>
+                </article>
               </div>
 
               <ul className="offer-benefits">
@@ -125,24 +119,24 @@ export default async function HomePage() {
                   <span className="offer-check" aria-hidden="true">✓</span>
                   <div>
                     <b>Diversão garantida</b>
-                    <span>Voadora, soco, chute, velocidade, pulo infinito, FPS boost e vários outros dentro do EXPLHUB. É o caos dos meus vídeos na sua mão.</span>
+                    <span>Tudo que tem no CHARMANDER HUB, sem limitação nenhuma. É o script que eu mais uso nos meus vídeos.</span>
                   </div>
                 </li>
                 <li className="offer-benefit">
                   <span className="offer-check" aria-hidden="true">✓</span>
                   <div>
                     <b>Paga uma vez e acabou</b>
-                    <span>R$ 4,99 pelos dois juntos. Não é assinatura, não vence e não renova.</span>
+                    <span>R$ 9,99 e é seu pra sempre. Não é assinatura, não vence e não renova.</span>
                   </div>
                 </li>
               </ul>
 
               <div className="offer-proof">
                 <span className="offer-proof-item">
-                  <b>{nf.format(bundleViews)}</b> visualizações nos 2
+                  <b>{nf.format(premiumScript.views || 0)}</b> visualizações
                 </span>
                 <span className="offer-proof-item">
-                  <b>{nf.format(bundleLikes)}</b> curtidas
+                  <b>{nf.format(premiumScript.likes || 0)}</b> curtidas
                 </span>
                 {buyers > 0 && (
                   <span className="offer-proof-item">
@@ -152,9 +146,9 @@ export default async function HomePage() {
               </div>
 
               <div className="offer-buy">
-                <p className="bundle-price">R$ 4,99</p>
-                <p className="bundle-price-note">pagamento único &middot; os 2 scripts &middot; pra sempre</p>
-                <BundleCtaButton href="/api/checkout?next=/">Destravar os 2 por R$ 4,99</BundleCtaButton>
+                <p className="bundle-price">R$ 9,99</p>
+                <p className="bundle-price-note">pagamento único &middot; pra sempre</p>
+                <BundleCtaButton href="/api/checkout?next=/">Destravar por R$ 9,99</BundleCtaButton>
                 <p className="offer-note">Acesso liberado na sua conta assim que o pagamento cair.</p>
               </div>
             </div>

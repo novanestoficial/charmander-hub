@@ -120,8 +120,7 @@ export default async function ScriptDetailPage({ params }) {
               <p className="paywall-eyebrow">Acesso premium &middot; sem key</p>
               <h2 className="paywall-title">Destrava o {script.name} agora</h2>
               <p className="paywall-lede">
-                Ele faz parte do pacote pago — e o pacote é um só: pagando uma vez você leva o EXPLHUB NDS{" "}
-                <strong>e</strong> o SCRIPT DA VOADORA juntos, pra sempre.
+                É o script premium do hub — pagando uma vez ele fica destravado na sua conta pra sempre.
               </p>
 
               <ul className="offer-benefits">
@@ -143,14 +142,14 @@ export default async function ScriptDetailPage({ params }) {
                   <span className="offer-check" aria-hidden="true">✓</span>
                   <div>
                     <b>Diversão garantida</b>
-                    <span>Voadora, soco, chute, velocidade, pulo infinito, FPS boost — o caos que aparece nos meus vídeos.</span>
+                    <span>Tudo que tem no {script.name}, sem limitação nenhuma — o script que eu mais uso nos meus vídeos.</span>
                   </div>
                 </li>
                 <li className="offer-benefit">
                   <span className="offer-check" aria-hidden="true">✓</span>
                   <div>
                     <b>Paga uma vez e acabou</b>
-                    <span>R$ 4,99 pelos dois juntos. Não é assinatura, não vence e não renova.</span>
+                    <span>R$ 9,99 e é seu pra sempre. Não é assinatura, não vence e não renova.</span>
                   </div>
                 </li>
               </ul>
@@ -165,19 +164,19 @@ export default async function ScriptDetailPage({ params }) {
                 {purchaseCount > 0 && (
                   <span className="offer-proof-item">
                     <b>{nf.format(purchaseCount)}</b>{" "}
-                    {purchaseCount === 1 ? "já destravou o pacote" : "já destravaram o pacote"}
+                    {purchaseCount === 1 ? "já destravou" : "já destravaram"}
                   </span>
                 )}
               </div>
 
               <div className="offer-buy">
-                <p className="paywall-price">R$ 4,99</p>
-                <p className="paywall-price-note">pagamento único &middot; os 2 scripts &middot; sem mensalidade</p>
+                <p className="paywall-price">R$ 9,99</p>
+                <p className="paywall-price-note">pagamento único &middot; sem mensalidade</p>
                 <a className="btn btn-primary auth-submit" href={`/api/checkout?next=/scripts/${slug}`}>
-                  Destravar os 2 por R$ 4,99
+                  Destravar por R$ 9,99
                 </a>
                 <p className="offer-note">
-                  Assim que o pagamento cair, o comando aparece nessa página — e o outro script também destrava.
+                  Assim que o pagamento cair, o comando aparece nessa página.
                 </p>
               </div>
             </div>
