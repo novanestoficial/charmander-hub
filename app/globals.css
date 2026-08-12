@@ -1259,87 +1259,36 @@
     color: var(--text-dim);
   }
 
+  /* um script só: sem o baralho de 2 cartas de antes, fluxo normal com
+     altura própria (a altura fixa do baralho sobrava vazia ou cobria a
+     frase de baixo quando só tinha 1 carta) */
   .bundle-cards {
     position: relative;
-    width: 280px;
-    height: 320px;
-    margin: 20px auto 24px;
-  }
-
-  /* um script só (sem o baralho de 2 cartas): fluxo normal, altura própria,
-     senão a altura fixa de 320px do baralho sobrava vazia ou cobria a frase
-     de baixo quando só tinha 1 carta posicionada em absolute */
-  .bundle-cards-single {
     width: 220px;
-    height: auto;
     margin: 20px auto 26px;
   }
 
-  .bundle-cards-single .card {
-    position: static;
-    width: 100%;
-    opacity: 1;
-    animation: none;
-    transform: none;
-  }
-
   .bundle-cards .card {
-    position: absolute;
-    top: 0;
-    width: 200px;
+    width: 100%;
     min-height: 0;
     opacity: 0;
+    animation: bundle-card-in 0.5s ease forwards, bundle-card-float 4.5s ease-in-out 0.7s infinite;
   }
 
-  /* nome de uma linha só: numa carta estreita do deck, "SCRIPT DA VOADORA" quebrava
-     em 2 linhas e empurrava a carta pra fora da altura fixa do container, cobrindo
-     o texto da oferta logo abaixo */
-  .bundle-cards .card-name-row { flex-wrap: nowrap; }
+  .bundle-cards .card-name { word-break: normal; }
 
-  .bundle-cards .card-name {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    word-break: normal;
+  @keyframes bundle-card-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  .bundle-cards .card:nth-child(1) {
-    left: -20px;
-    z-index: 1;
-    animation: bundle-card-in-1 0.5s ease forwards, bundle-card-peek-back 4.5s ease-in-out 0.7s infinite;
-  }
-
-  .bundle-cards .card:nth-child(2) {
-    left: 44px;
-    top: 18px;
-    z-index: 2;
-    animation: bundle-card-in-2 0.5s ease 0.12s forwards, bundle-card-peek-front 4.5s ease-in-out 0.7s infinite;
-  }
-
-  @keyframes bundle-card-in-1 {
-    from { opacity: 0; transform: translateY(14px) rotate(-6deg); }
-    to { opacity: 1; transform: translateY(0) rotate(-6deg); }
-  }
-
-  @keyframes bundle-card-in-2 {
-    from { opacity: 0; transform: translateY(14px) rotate(5deg); }
-    to { opacity: 1; transform: translateY(0) rotate(5deg); }
-  }
-
-  @keyframes bundle-card-peek-front {
-    0%, 18%, 100% { transform: rotate(5deg) translate(0, 0); }
-    50% { transform: rotate(7deg) translate(26px, -10px); }
-  }
-
-  @keyframes bundle-card-peek-back {
-    0%, 18%, 100% { transform: rotate(-6deg) translate(0, 0); }
-    50% { transform: rotate(-8deg) translate(-26px, -10px); }
+  @keyframes bundle-card-float {
+    0%, 18%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .bundle-cards .card { animation: none; opacity: 1; }
-    .bundle-cards .card:nth-child(1) { transform: rotate(-6deg); }
-    .bundle-cards .card:nth-child(2) { transform: rotate(5deg); }
   }
 
   .bundle-cta {
@@ -3554,12 +3503,9 @@
     .filters { gap: 8px; margin-bottom: 26px; }
     .filter-pill { font-size: 0.72rem; padding: 8px 14px; }
 
-    /* o pacote encolhe junto pra caber sem cortar a animação de peek */
+    /* o pacote encolhe junto pra caber na tela */
     .wrap.bundle-panel { max-width: 100%; }
-    .bundle-cards { width: 236px; height: 268px; margin-bottom: 22px; }
-    .bundle-cards .card { width: 168px; }
-    .bundle-cards .card:nth-child(1) { left: -14px; }
-    .bundle-cards .card:nth-child(2) { left: 36px; }
+    .bundle-cards { width: 196px; margin-bottom: 22px; }
 
     .offer-benefit { padding: 11px 12px; gap: 10px; }
     .offer-proof { gap: 7px 8px; margin-bottom: 18px; }

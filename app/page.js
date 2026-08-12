@@ -79,7 +79,7 @@ export default async function HomePage() {
               <p className="bundle-sub">
                 O script mais completo do hub. Paga uma vez, fica salvo na sua conta pra sempre.
               </p>
-              <div className="bundle-cards bundle-cards-single">
+              <div className="bundle-cards">
                 <article className="card card-simple">
                   <a className="card-link" href={`/scripts/${premiumScript.slug}`}>
                     <div className="card-cover-wrap">
