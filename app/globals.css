@@ -1264,7 +1264,7 @@
      frase de baixo quando só tinha 1 carta) */
   .bundle-cards {
     position: relative;
-    width: 220px;
+    width: 100%;
     margin: 20px auto 26px;
   }
 
@@ -1275,7 +1275,19 @@
     animation: bundle-card-in 0.5s ease forwards, bundle-card-float 4.5s ease-in-out 0.7s infinite;
   }
 
-  .bundle-cards .card-name { word-break: normal; }
+  /* a capa é 16:9 — o 16/8 padrão do catálogo cortava topo e base, e aqui a
+     ideia é justamente mostrar a print inteira do script.
+     height:auto é obrigatório: o atributo height do <img> entra como altura
+     definida e, com os dois eixos definidos, o aspect-ratio é ignorado */
+  .bundle-cards .card-cover {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* o painel inteiro é centralizado — o nome alinhado à esquerda (herdado do
+     catálogo) quebrava esse eixo */
+  .bundle-cards .card-name-row { justify-content: center; }
+  .bundle-cards .card-name { word-break: normal; text-align: center; }
 
   @keyframes bundle-card-in {
     from { opacity: 0; transform: translateY(14px); }
@@ -3505,11 +3517,32 @@
 
     /* o pacote encolhe junto pra caber na tela */
     .wrap.bundle-panel { max-width: 100%; }
-    .bundle-cards { width: 196px; margin-bottom: 22px; }
+    .bundle-cards { margin-bottom: 22px; }
 
     .offer-benefit { padding: 11px 12px; gap: 10px; }
-    .offer-proof { gap: 7px 8px; margin-bottom: 18px; }
-    .offer-proof-item { padding: 6px 11px; font-size: 0.7rem; }
+
+    /* uma linha só, colunas iguais: no flex-wrap os chips caíam 2 + 1 e
+       quebravam o eixo centralizado. flex:1 1 0 divide igual seja com 2 ou 3
+       chips (o de compras só existe depois da primeira venda) */
+    .offer-proof {
+      flex-wrap: nowrap;
+      gap: 7px;
+      margin-bottom: 18px;
+    }
+
+    .offer-proof-item {
+      flex: 1 1 0;
+      min-width: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 7px 4px;
+      font-size: 0.62rem;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .offer-proof-item b { font-size: 0.82rem; }
 
     .code-block-body { padding: 14px 16px; }
     .footer-inner { justify-content: center; text-align: center; }

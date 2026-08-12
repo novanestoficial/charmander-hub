@@ -87,10 +87,11 @@ export default async function HomePage() {
                         className="card-cover"
                         src={premiumScript.coverUrl}
                         alt={premiumScript.name}
-                        loading="lazy"
+                        loading="eager"
+                        fetchPriority="high"
                         decoding="async"
-                        width="480"
-                        height="240"
+                        width="1672"
+                        height="941"
                       />
                     </div>
                     <div className="card-name-row">
