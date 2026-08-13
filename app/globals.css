@@ -1272,7 +1272,7 @@
     width: 100%;
     min-height: 0;
     opacity: 0;
-    animation: bundle-card-in 0.5s ease forwards, bundle-card-vibe 4s ease-in-out 1s infinite;
+    animation: bundle-card-in 0.5s ease forwards, bundle-card-vibe 2.6s linear 0.8s infinite;
   }
 
   /* a capa é 16:9 — o 16/8 padrão do catálogo cortava topo e base, e aqui a
@@ -1296,16 +1296,18 @@
     to { opacity: 1; }
   }
 
-  /* vibração curta e leve, com pausa longa entre os ciclos: chama atenção sem
-     ficar tremendo o tempo todo atrás do texto */
+  /* tremida curta com pausa entre os ciclos. linear (não ease) porque o
+     amortecimento suave tirava a sensação de vibração */
   @keyframes bundle-card-vibe {
-    0%, 82%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-    84% { transform: translate3d(-2px, 0, 0) rotate(-0.35deg); }
-    86% { transform: translate3d(2px, 0, 0) rotate(0.35deg); }
-    88% { transform: translate3d(-2px, 0, 0) rotate(-0.35deg); }
-    90% { transform: translate3d(2px, 0, 0) rotate(0.35deg); }
-    92% { transform: translate3d(-1px, 0, 0) rotate(-0.18deg); }
-    94% { transform: translate3d(1px, 0, 0) rotate(0.18deg); }
+    0%, 62%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    64% { transform: translate3d(-6px, 0, 0) rotate(-1.1deg); }
+    67% { transform: translate3d(6px, 0, 0) rotate(1.1deg); }
+    70% { transform: translate3d(-6px, 0, 0) rotate(-1.1deg); }
+    73% { transform: translate3d(5px, 0, 0) rotate(0.9deg); }
+    76% { transform: translate3d(-4px, 0, 0) rotate(-0.7deg); }
+    79% { transform: translate3d(3px, 0, 0) rotate(0.5deg); }
+    82% { transform: translate3d(-2px, 0, 0) rotate(-0.3deg); }
+    85% { transform: translate3d(1px, 0, 0) rotate(0.15deg); }
   }
 
   @media (prefers-reduced-motion: reduce) {
