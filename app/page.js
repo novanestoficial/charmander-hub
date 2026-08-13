@@ -13,9 +13,12 @@ export default async function HomePage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  // destaque primeiro: é o que faz o Voadora/Explhub aparecerem no topo da
+  // grade sem precisar renumerar o sort_order de todo mundo
   const { data } = await supabase
     .from("scripts")
     .select("*")
+    .order("featured", { ascending: false })
     .order("sort_order", { ascending: true });
 
   const scripts = (data || []).map((script) => ({

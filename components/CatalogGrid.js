@@ -54,7 +54,10 @@ export default function CatalogGrid({ scripts, locked = false, categories = [] }
 
       <div className="grid" id="grid">
         {visible.map((script) => (
-          <article className="card card-simple" key={script.slug}>
+          <article
+            className={`card card-simple${script.featured ? " card-featured" : ""}`}
+            key={script.slug}
+          >
             <a className="card-link" href={`/scripts/${script.slug}`}>
               <div className="card-cover-wrap">
                 <img
@@ -66,6 +69,7 @@ export default function CatalogGrid({ scripts, locked = false, categories = [] }
                   width="480"
                   height="240"
                 />
+                {script.featured && <span className="card-featured-flag">🔥 Destaque</span>}
                 {locked && <LockBadge />}
                 <span className="stats-overlay stat-views">👁 {script.views}</span>
                 <span className="stats-overlay stat-likes">❤️ {script.likes}</span>

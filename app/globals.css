@@ -1272,7 +1272,7 @@
     width: 100%;
     min-height: 0;
     opacity: 0;
-    animation: bundle-card-in 0.5s ease forwards, bundle-card-float 4.5s ease-in-out 0.7s infinite;
+    animation: bundle-card-in 0.5s ease forwards, bundle-card-vibe 4s ease-in-out 1s infinite;
   }
 
   /* a capa é 16:9 — o 16/8 padrão do catálogo cortava topo e base, e aqui a
@@ -1289,14 +1289,23 @@
   .bundle-cards .card-name-row { justify-content: center; }
   .bundle-cards .card-name { word-break: normal; text-align: center; }
 
+  /* só opacidade: se a entrada também animar transform, ela disputa a
+     propriedade com a vibração e uma das duas é descartada */
   @keyframes bundle-card-in {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
-  @keyframes bundle-card-float {
-    0%, 18%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  /* vibração curta e leve, com pausa longa entre os ciclos: chama atenção sem
+     ficar tremendo o tempo todo atrás do texto */
+  @keyframes bundle-card-vibe {
+    0%, 82%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    84% { transform: translate3d(-2px, 0, 0) rotate(-0.35deg); }
+    86% { transform: translate3d(2px, 0, 0) rotate(0.35deg); }
+    88% { transform: translate3d(-2px, 0, 0) rotate(-0.35deg); }
+    90% { transform: translate3d(2px, 0, 0) rotate(0.35deg); }
+    92% { transform: translate3d(-1px, 0, 0) rotate(-0.18deg); }
+    94% { transform: translate3d(1px, 0, 0) rotate(0.18deg); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1485,6 +1494,43 @@
     background: linear-gradient(140deg, var(--flame), var(--ember));
     border-color: var(--flame);
     color: #1a0d05;
+  }
+
+  /* destaque: borda quente + selo. o cartão precisa saltar na grade sem virar
+     outro componente — mesma forma, só mais presente */
+  .card-featured {
+    border-color: rgba(255, 107, 26, 0.55);
+    box-shadow: var(--sh-2), 0 0 0 1px rgba(255, 107, 26, 0.25), 0 0 34px -12px rgba(255, 107, 26, 0.9);
+  }
+
+  .card-featured:hover {
+    border-color: var(--flame);
+    box-shadow: var(--sh-3), 0 0 0 1px rgba(255, 107, 26, 0.4), 0 0 46px -10px rgba(255, 107, 26, 1);
+  }
+
+  /* único canto livre da capa: views ocupa o topo-esquerdo, o cadeado o
+     topo-direito e os likes o inferior-direito */
+  .card-featured-flag {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: var(--r-pill);
+    background: linear-gradient(140deg, var(--flame), var(--ember));
+    border: 1px solid rgba(255, 179, 71, 0.55);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #1a0d05;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px -3px rgba(255, 107, 26, 0.9);
   }
 
   .badge-group { display: flex; gap: 6px; flex-shrink: 0; }
